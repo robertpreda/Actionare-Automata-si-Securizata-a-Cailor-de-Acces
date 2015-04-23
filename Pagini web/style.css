@@ -1,0 +1,55 @@
+body {
+background-color:#66CCFF;
+color:#000000;
+font-family:Verdana;
+font-size:small;
+padding:5px;
+margin:5px;
+text-align:justify;
+}
+
+div {
+padding:4px;
+border:1px solid #E4E3FF;
+}
+
+form {
+background-color:#66CCFF;
+position: relative;
+font-size:small;
+padding:0px;
+margin:0px;
+}
+
+legend {
+color:#DEDDFB;
+}
+
+a:link, a:visited {
+font:Verdana;
+color:#800000;
+text-decoration:none;
+}
+
+a:hover {
+font:Verdana;
+color:#FDFDFF;
+text-decoration:underline;
+padding:0px;
+margin:0px;
+}
+
+h5 {
+font-family:Verdana;
+color:#66CCFF;
+font-size:small;
+padding:0px;
+margin:0px;
+text-align:center;
+}
+
+p {
+color: #000000;
+text-indent:10px;
+font-size:11px;
+}

@@ -1,0 +1,70 @@
+<?php
+require_once('config.php');
+include("connect.php");
+//print $_SESSION['user'];
+//print $_GET['mod'];
+if(!isset($_GET['com'])) $_GET['com'] = '';
+if(!isset($_GET['user'])) $_GET['user'] = '';
+if(!isset($_GET['token'])) $_GET['token'] = ''
+
+if(!isset($_SESSION['logat'])) $_SESSION['logat'] = 'NU';
+if($_SESSION['logat'] != 'Da')
+{
+echo 'Pentru a accesa aceasta pagina, trebuie sa va autentificati. <br>
+      Pentru a va autentifica, apasati <a href="index.php">aici</a><br>
+	  Pentru a va inregistra, apasati <a href="inregistrare.php">aici</a>';
+}
+else
+{
+if($_SESSION['user']=="root" || $_SESSION['user'] == "admin" || $_SESSION['user'] == "portar"){
+$cerere="select ID from users where nume='".$_SESSION['user']."'";
+$resursa =mysql_query($cerere);
+$row=mysql_fetch_array($resursa);
+$cerere2="select Parola_2 from users where user='".$_GET['user']."'";
+$resursa2=mysql_querry($cerere2);
+$parola=mysql_fetch_array($resursa2);
+$id=$row['ID'];
+switch($_GET['com'])
+{
+case '':
+print 'gol';
+break;
+
+
+case '1':
+$cerere = "INSERT INTO `poarta`.`pontaje` (`ID`, `Data`, `Ora`,`Actiune`) VALUES ('".$id."', CURDATE(), CURTIME(),'Deschidere');";
+mysql_query($cerere);
+$output = shell_exec('gpio mode 0 out');
+$output1 = shell_exec('gpio write 0 1');
+print 'S-a deschis poarta';
+break;
+
+
+case '2':
+$cerere = "INSERT INTO `poarta`.`pontaje` (`ID`, `Data`, `Ora`,`Actiune`) VALUES ('".$id."', CURDATE(), CURTIME(),'Inchidere');";
+mysql_query($cerere);
+print 'S-a inchis poarta';
+$output = shell_exec('gpio mode 0 out');
+$output1 = shell_exec('gpio write 0 0');
+break;
+
+
+case '3':
+$cerere = "INSERT INTO `poarta`.`pontaje` (`ID`, `Data`, `Ora`,`Actiune`) VALUES ('".$id."', CURDATE(), CURTIME(),'Automat');";
+mysql_query($cerere);
+print 'Poarta s-a deschis, iar peste 10 secunde se va inchide';
+$output = shell_exec();
+break;
+
+
+case '4':
+$cerere = "INSERT INTO `poarta`.`pontaje` (`ID`, `Data`, `Ora`,`Actiune`) VALUES ('".$id."', CURDATE(), CURTIME(),'Pauza');";
+mysql_query($cerere);
+print 'Poarta este oprita';
+break;
+
+
+}
+}
+}
+?>
