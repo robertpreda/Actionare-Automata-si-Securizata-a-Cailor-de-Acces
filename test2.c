@@ -155,7 +155,13 @@ unsigned char r;
   if(r==49)
   {k=5;timeout_dioda=1000;}
   if(r==50)
-  k=6;
+  k=6;
+  if(r==120)
+  f_servo=1;
+  if(r==121)
+  f_servo=2;
+	
+   
 }
 
 
@@ -221,10 +227,11 @@ if(timeout_motor==1)
 	
 	if(f_servo==2)
 	{
+		
 		if(stare==0 && motor==1)
-		OCR1A=OCR1A+1;
+		OCR1A=OCR1A-1;
 		if(stare==1 && motor==1)
-		OCR1A=OCR1A-1;
+		OCR1A=OCR1A+1;
 
 		if(OCR1A>1300)
 		OCR1A=1300;
@@ -317,13 +324,17 @@ sprintf(buff," Bun venit!---Mcucsr=%u\n\r ",MCUCSR);
 	if((PIND & (1<<PD3))==0)
 			_delay_ms(80);
 		if((PIND & (1<<PD3))==0)
-		{timeout_motor=30;k=2;}
+		{timeout_motor=30;k=2;
+			if(f_servo==2) OCR1A=500;
+
+		}
 
 	if((PIND & (1<<PD4))==0)
 			_delay_ms(80);
 		if((PIND & (1<<PD4))==0)
 			{timeout_motor=30; timeout_dioda=1000;
 		 	k=5;
+			if(f_servo==2) OCR1A=800;
 		 	}
 
 	if((PIND & (1<<PD2))==0)
@@ -337,13 +348,16 @@ sprintf(buff," Bun venit!---Mcucsr=%u\n\r ",MCUCSR);
 		if((PINC & (1<<PC3))==0)
 			_delay_ms(80);
 		if((PINC & (1<<PC3))==0)
-		{timeout_motor=30;k=2;}
+		{timeout_motor=30;k=2;
+		if(f_servo==2) OCR1A=500;
+		}
 
 	if((PINC & (1<<PC2))==0)
 			_delay_ms(80);
 		if((PINC & (1<<PC2))==0)
 			{timeout_motor=30;timeout_dioda=1000;
 			k=5;
+			if(f_servo==2) OCR1A=800;
 			}
 
 	if((PINC & (1<<PC1))==0)
@@ -402,7 +416,7 @@ PORTD=PORTD&223;
 //				prints(buff);
 //				_delay_ms(500);
 
-	if(suma<400)	
+	if(suma<300)	
 		{inchis();
 		if(motor==0 && timeout_motor==0)
 			k=4;
